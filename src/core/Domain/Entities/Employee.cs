@@ -9,12 +9,12 @@ public class Employee : AggregateRoot
 {
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
-    public Position Position { get; private set; }
+    public string Position { get; private set; }
     public Address Address { get; private set; }
     private readonly List<LeaveRequest> _leaveRequests = new List<LeaveRequest>();
     public IReadOnlyCollection<LeaveRequest> LeaveRequests => _leaveRequests.AsReadOnly();
 
-    public Employee(string firstName, string lastName, Position position, Address address)
+    public Employee(string firstName, string lastName, string position, Address address)
     {
         Id = Guid.NewGuid();
         FirstName = firstName;
@@ -25,7 +25,7 @@ public class Employee : AggregateRoot
         AddDomainEvent(new EmployeeCreatedEvent(this));
     }
 
-    public void ChangePosition(Position newPosition)
+    public void ChangePosition(string newPosition)
     {
         Position = newPosition;
         AddDomainEvent(new PositionChangedEvent(this));
