@@ -1,5 +1,4 @@
-﻿using Domain.Enums;
-using Domain.Events.EmployeeEvents;
+﻿using Domain.Events.EmployeeEvents;
 using Domain.Shared;
 using Domain.ValueObjects;
 
@@ -23,6 +22,16 @@ public class Employee : AggregateRoot
         Address = address;
 
         AddDomainEvent(new EmployeeCreatedEvent(this));
+    }
+
+    public void UpdateEmployeeDetails(string firstName, string lastName, string position, Address address)
+    {
+        FirstName = firstName;
+        LastName = lastName;
+        Position = position;
+        Address = address;
+
+        AddDomainEvent(new UpdateEmployeeDetailsEvent(this));
     }
 
     public void ChangePosition(string newPosition)
