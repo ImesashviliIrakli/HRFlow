@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace Application.Commands.Employees.ApproveLeaveRequest;
+namespace Application.Commands.LeaveRequests.ApproveLeaveRequest;
 
 public class ApproveLeaveRequestCommand : IRequest<Unit>
 {

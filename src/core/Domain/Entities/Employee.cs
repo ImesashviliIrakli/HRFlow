@@ -66,5 +66,10 @@ public class Employee : AggregateRoot
             AddDomainEvent(new LeaveRequestRejectedEvent(leaveRequestId, rejectionReason));
         }
     }
+
+    public void DeleteEmployee()
+    {
+        AddDomainEvent(new DeleteEmployeeEvent(this));
+    }
 }
 

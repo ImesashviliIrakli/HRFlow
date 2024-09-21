@@ -1,7 +1,7 @@
 ﻿using Application.Interfaces;
 using MediatR;
 
-namespace Application.Commands.Employees.RejectLeaveRequest;
+namespace Application.Commands.LeaveRequests.RejectLeaveRequest;
 
 public class RejectLeaveRequestCommandHandler : IRequestHandler<RejectLeaveRequestCommand, Unit>
 {
