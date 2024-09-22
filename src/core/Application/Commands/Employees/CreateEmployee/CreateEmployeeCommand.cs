@@ -4,11 +4,11 @@ namespace Application.Commands.Employees.CreateEmployee;
 
 public class CreateEmployeeCommand : IRequest<Guid>
 {
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
-    public string Position { get; set; }
-    public string Street { get; set; }
-    public string City { get; set; }
-    public string State { get; set; }
-    public string ZipCode { get; set; }
+    public required string FirstName { get; set; }
+    public required string LastName { get; set; }
+    public required string Position { get; set; }
+    public required string Street { get; set; }
+    public required string City { get; set; }
+    public required string State { get; set; }
+    public required string ZipCode { get; set; }
 }
