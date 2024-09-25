@@ -10,6 +10,8 @@ public class LeaveRequest : Entity
     public bool IsApproved { get; private set; }
     public string? RejectionReason { get; private set; }
 
+    public LeaveRequest() {}
+
     public LeaveRequest(DateTime startDate, DateTime endDate, string reason)
     {
         Id = Guid.NewGuid();

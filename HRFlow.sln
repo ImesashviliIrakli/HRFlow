@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\core\App
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "infrastructure", "infrastructure", "{070DF4E6-CC7A-41B7-B4FA-70D1E9816E15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Persistence", "src\infrastructure\Persistence\Persistence.csproj", "{2DEAC10F-BA71-4E96-A8FE-CA3E6740DB23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Persistence", "src\infrastructure\Persistence\Persistence.csproj", "{2DEAC10F-BA71-4E96-A8FE-CA3E6740DB23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identity", "src\infrastructure\Identity\Identity.csproj", "{FFD0F531-502E-4CAF-84F3-00998F7C2284}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Identity", "src\infrastructure\Identity\Identity.csproj", "{FFD0F531-502E-4CAF-84F3-00998F7C2284}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Api", "Api\Api.csproj", "{A5B01F95-4B5A-4A44-9826-3386102A91C9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{FFD0F531-502E-4CAF-84F3-00998F7C2284}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FFD0F531-502E-4CAF-84F3-00998F7C2284}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FFD0F531-502E-4CAF-84F3-00998F7C2284}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5B01F95-4B5A-4A44-9826-3386102A91C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5B01F95-4B5A-4A44-9826-3386102A91C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5B01F95-4B5A-4A44-9826-3386102A91C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5B01F95-4B5A-4A44-9826-3386102A91C9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

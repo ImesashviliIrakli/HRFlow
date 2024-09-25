@@ -6,6 +6,7 @@ namespace Domain.Entities;
 
 public class Employee : AggregateRoot
 {
+    public string UserId { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string Position { get; private set; }
@@ -13,9 +14,12 @@ public class Employee : AggregateRoot
     private readonly List<LeaveRequest> _leaveRequests = new List<LeaveRequest>();
     public IReadOnlyCollection<LeaveRequest> LeaveRequests => _leaveRequests.AsReadOnly();
 
-    public Employee(string firstName, string lastName, string position, Address address)
+    public Employee() {}
+
+    public Employee(string userId, string firstName, string lastName, string position, Address address)
     {
         Id = Guid.NewGuid();
+        UserId = userId;
         FirstName = firstName;
         LastName = lastName;
         Position = position;

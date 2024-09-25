@@ -8,17 +8,21 @@ namespace Application.Commands.Employees.CreateEmployee;
 public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, Guid>
 {
     private readonly IEmployeeRepository _employeeRepository;
+    private readonly IAuthService _authService;
 
-    public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository)
+    public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IAuthService authService)
     {
         _employeeRepository = employeeRepository;
+        _authService = authService;
     }
 
     public async Task<Guid> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var address = new Address(request.Street, request.City, request.State, request.ZipCode);
+        var user = await _authService.RegisterAsync(request.RegistrationRequest);
 
-        var employee = new Employee(request.FirstName, request.LastName, request.Position, address);
+        var address = new Address(request.CreateEmployeeDto.Street, request.CreateEmployeeDto.City, request.CreateEmployeeDto.State, request.CreateEmployeeDto.ZipCode);
+
+        var employee = new Employee(user.UserId, request.RegistrationRequest.FirstName, request.RegistrationRequest.LastName, request.CreateEmployeeDto.Position, address);
 
         // Add the new Employee to the repository
         await _employeeRepository.AddAsync(employee);
