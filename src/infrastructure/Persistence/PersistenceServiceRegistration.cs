@@ -15,6 +15,7 @@ public static class PersistenceServiceRegistration
         (
             options =>
             {
+                options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
                 options.UseSqlServer
                 (
                     configuartion.GetConnectionString("DefaultConnection")

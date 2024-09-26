@@ -7,7 +7,7 @@ namespace Domain.Entities;
 public class Employee : AggregateRoot
 {
     public string UserId { get; private set; }
-    public string FirstName { get; private set; }
+    public string FirstName { get; set; }
     public string LastName { get; private set; }
     public string Position { get; private set; }
     public Address Address { get; private set; }
@@ -46,7 +46,7 @@ public class Employee : AggregateRoot
 
     public void AddLeaveRequest(DateTime startDate, DateTime endDate, string reason)
     {
-        var leaveRequest = new LeaveRequest(startDate, endDate, reason);
+        var leaveRequest = new LeaveRequest(startDate, endDate, reason, Id);
         _leaveRequests.Add(leaveRequest);
         AddDomainEvent(new LeaveRequestAddedEvent(leaveRequest));
     }

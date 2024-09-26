@@ -1,17 +1,19 @@
 ﻿using MediatR;
+using System.Text.Json.Serialization;
 
 namespace Application.Commands.LeaveRequests.SubmitLeaveRequest;
 
 public class SubmitLeaveRequestCommand : IRequest<Unit>
 {
-    public Guid EmployeeId { get; }
+    [JsonIgnore]
+    public string? UserId { get; }
     public DateTime StartDate { get; }
     public DateTime EndDate { get; }
     public string Reason { get; }
 
-    public SubmitLeaveRequestCommand(Guid employeeId, DateTime startDate, DateTime endDate, string reason)
+    public SubmitLeaveRequestCommand(string userId, DateTime startDate, DateTime endDate, string reason)
     {
-        EmployeeId = employeeId;
+        UserId = userId;
         StartDate = startDate;
         EndDate = endDate;
         Reason = reason;

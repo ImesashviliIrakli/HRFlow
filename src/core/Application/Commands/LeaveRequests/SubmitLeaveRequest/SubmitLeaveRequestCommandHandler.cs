@@ -12,14 +12,14 @@ public class SubmitLeaveRequestCommandHandler : IRequestHandler<SubmitLeaveReque
     }
     public async Task<Unit> Handle(SubmitLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var employee = await _repository.GetEmployeeByIdAsync(request.EmployeeId);
+        var employee = await _repository.GetEmployeeByUserIdAsync(request.UserId);
 
         if (employee == null)
             throw new Exception("Not Found");
 
         employee.AddLeaveRequest(request.StartDate, request.EndDate, request.Reason);
 
-        await _repository.UpdateAsync(employee);
+        await _repository.SaveChanges(cancellationToken);
 
         return Unit.Value;
     }

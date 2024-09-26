@@ -41,14 +41,14 @@ public class AuthService : IAuthService
     }
 
 
-    public async Task<LoginResponse> LoginAsync(LoginRequest loginRequest)
+    public async Task<LoginResponse> LoginAsync(string email, string password)
     {
-        var user = await _userManager.FindByEmailAsync(loginRequest.Email);
+        var user = await _userManager.FindByEmailAsync(email);
 
         if (user is null)
             throw new Exception("Not Found");
 
-        var result = await _signInManager.CheckPasswordSignInAsync(user, loginRequest.Password, false);
+        var result = await _signInManager.CheckPasswordSignInAsync(user, password, false);
 
         if (result.Succeeded == false)
             throw new Exception($"Error logging in");

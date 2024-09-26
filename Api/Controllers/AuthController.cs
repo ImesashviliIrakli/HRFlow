@@ -1,4 +1,5 @@
-﻿using Application.Commands.Employees.CreateEmployee;
+﻿using Application.Commands.Auth;
+using Application.Commands.Employees.CreateEmployee;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,7 +7,7 @@ namespace Api.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class AuthController : ControllerBase
+public class AuthController : BaseController
 {
     private readonly IMediator _mediator;
 
@@ -15,10 +16,19 @@ public class AuthController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [HttpPost("Login")]
+    public async Task<IActionResult> Login([FromBody] LoginCommand loginCommand)
+    {
+        var data = await _mediator.Send(loginCommand);
+
+        return CreateResponse(data);
+    }
+
+    [HttpPost("RegisterEmployee")]
     public async Task<IActionResult> RegisterEmployee([FromBody] CreateEmployeeCommand createEmployeeCommand)
     {
-        var response = await _mediator.Send(createEmployeeCommand);
-        return Ok(response);
+        var data = await _mediator.Send(createEmployeeCommand);
+
+        return CreateResponse(data);
     }
 }

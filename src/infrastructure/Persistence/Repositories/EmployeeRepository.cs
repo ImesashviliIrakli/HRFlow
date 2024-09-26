@@ -21,7 +21,20 @@ public class EmployeeRepository : IEmployeeRepository
         var employee = await _context.Employees
             .Include(x => x.LeaveRequests)
             .Include(x => x.Address)
-            .FirstOrDefaultAsync();
+            .FirstOrDefaultAsync(x => x.Id.Equals(id));
+
+        if (employee is null)
+            throw new Exception("Not Found");
+
+        return employee;
+    }
+
+    public async Task<Employee> GetEmployeeByUserIdAsync(string userId)
+    {
+        var employee = await _context.Employees
+            .Include(x => x.Address)
+            .Include(x => x.LeaveRequests)
+            .FirstOrDefaultAsync(x => x.UserId.Equals(userId));
 
         if (employee is null)
             throw new Exception("Not Found");
@@ -45,8 +58,13 @@ public class EmployeeRepository : IEmployeeRepository
 
     public async Task UpdateAsync(Employee employee)
     {
-        _context.Employees.Update(employee);
+        //_context.Employees.Update(employee);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task SaveChanges(CancellationToken cancellationToken)
+    {
+        await _context.SaveChangesAsync(cancellationToken);
     }
     #endregion
 
