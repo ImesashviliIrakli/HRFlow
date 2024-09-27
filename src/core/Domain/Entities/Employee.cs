@@ -44,11 +44,13 @@ public class Employee : AggregateRoot
         AddDomainEvent(new PositionChangedEvent(this));
     }
 
-    public void AddLeaveRequest(DateTime startDate, DateTime endDate, string reason)
+    public LeaveRequest AddLeaveRequest(DateTime startDate, DateTime endDate, string reason)
     {
         var leaveRequest = new LeaveRequest(startDate, endDate, reason, Id);
         _leaveRequests.Add(leaveRequest);
         AddDomainEvent(new LeaveRequestAddedEvent(leaveRequest));
+
+        return leaveRequest;
     }
 
     public void ApproveLeaveRequest(Guid leaveRequestId)

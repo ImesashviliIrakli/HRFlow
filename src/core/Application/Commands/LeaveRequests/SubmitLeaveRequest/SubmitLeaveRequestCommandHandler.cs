@@ -5,21 +5,23 @@ namespace Application.Commands.LeaveRequests.SubmitLeaveRequest;
 
 public class SubmitLeaveRequestCommandHandler : IRequestHandler<SubmitLeaveRequestCommand, Unit>
 {
-    private readonly IEmployeeRepository _repository;
-    public SubmitLeaveRequestCommandHandler(IEmployeeRepository repository)
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly ILeaveRepository _leaveRepository;
+    public SubmitLeaveRequestCommandHandler(IEmployeeRepository employeeRepository, ILeaveRepository leaveRepository)
     {
-        _repository = repository;
+        _employeeRepository = employeeRepository;
+        _leaveRepository = leaveRepository;
     }
     public async Task<Unit> Handle(SubmitLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var employee = await _repository.GetEmployeeByUserIdAsync(request.UserId);
+        var employee = await _employeeRepository.GetEmployeeByUserIdAsync(request.UserId);
 
         if (employee == null)
             throw new Exception("Not Found");
 
-        employee.AddLeaveRequest(request.StartDate, request.EndDate, request.Reason);
+        var leaveRequest = employee.AddLeaveRequest(request.StartDate, request.EndDate, request.Reason);
 
-        await _repository.SaveChanges(cancellationToken);
+        await _leaveRepository.AddAsync(leaveRequest);
 
         return Unit.Value;
     }

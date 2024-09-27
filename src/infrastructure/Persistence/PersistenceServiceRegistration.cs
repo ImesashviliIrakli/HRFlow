@@ -25,6 +25,7 @@ public static class PersistenceServiceRegistration
 
         // Service Registration
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        services.AddScoped<ILeaveRepository, LeaveRepository>();
 
         return services;
     }
