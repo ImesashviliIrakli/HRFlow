@@ -1,10 +1,10 @@
-﻿using Application.Models.Identity;
-using MediatR;
+﻿using Application.Interfaces.Messaging;
+using Application.Models.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Commands.Auth;
 
-public class LoginCommand : IRequest<LoginResponse>
+public class LoginCommand : ICommand<LoginResponse>
 {
     [Required]
     public required string Email { get; set; }

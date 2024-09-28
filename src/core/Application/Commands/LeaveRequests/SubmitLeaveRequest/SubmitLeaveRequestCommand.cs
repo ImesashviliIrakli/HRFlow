@@ -1,9 +1,9 @@
-﻿using MediatR;
+﻿using Application.Interfaces.Messaging;
 using System.Text.Json.Serialization;
 
 namespace Application.Commands.LeaveRequests.SubmitLeaveRequest;
 
-public class SubmitLeaveRequestCommand : IRequest<Unit>
+public class SubmitLeaveRequestCommand : ICommand
 {
     [JsonIgnore]
     public string? UserId { get; }

@@ -1,5 +1,6 @@
 ﻿using Application.Commands.LeaveRequests.SubmitLeaveRequest;
 using Application.Models.LeaveRequest;
+using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,8 @@ public class LeaveController : BaseController
 
         var data = await _mediator.Send(command);
 
-        return CreateResponse(data);
+        return data.IsSuccess
+               ? Ok(data)
+               : NotFound(data.Error);
     }
 }

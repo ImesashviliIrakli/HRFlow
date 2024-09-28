@@ -1,5 +1,5 @@
-﻿using Application.Interfaces;
-using Domain.Entities;
+﻿using Domain.Entities;
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Data;
 
@@ -44,28 +44,11 @@ public class EmployeeRepository : IEmployeeRepository
     #endregion
 
     #region Write
-    public async Task AddAsync(Employee employee)
-    {
-        await _context.Employees.AddAsync(employee);
-        await _context.SaveChangesAsync();
-    }
+    public async Task AddAsync(Employee employee) => await _context.Employees.AddAsync(employee);
 
-    public async Task DeleteAsync(Employee employee)
-    {
-        _context.Employees.Remove(employee);
-        await _context.SaveChangesAsync();
-    }
+    public void Delete(Employee employee) => _context.Employees.Remove(employee);
 
-    public async Task UpdateAsync(Employee employee)
-    {
-        //_context.Employees.Update(employee);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task SaveChanges(CancellationToken cancellationToken)
-    {
-        await _context.SaveChangesAsync(cancellationToken);
-    }
+    public void Update(Employee employee) => _context.Employees.Update(employee);
     #endregion
 
 }

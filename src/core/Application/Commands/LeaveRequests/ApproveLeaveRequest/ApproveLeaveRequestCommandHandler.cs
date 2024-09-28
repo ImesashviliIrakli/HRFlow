@@ -1,26 +1,31 @@
-﻿using Application.Interfaces;
+﻿using Domain.Errors;
+using Domain.Repositories;
+using Domain.Shared;
 using MediatR;
 
 namespace Application.Commands.LeaveRequests.ApproveLeaveRequest;
 
-public class ApproveLeaveRequestCommandHandler : IRequestHandler<ApproveLeaveRequestCommand, Unit>
+public class ApproveLeaveRequestCommandHandler : IRequestHandler<ApproveLeaveRequestCommand, Result>
 {
-    private readonly IEmployeeRepository _repository;
-    public ApproveLeaveRequestCommandHandler(IEmployeeRepository repository)
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    public ApproveLeaveRequestCommandHandler(IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _employeeRepository = employeeRepository;
+        _unitOfWork = unitOfWork;
     }
 
-    public async Task<Unit> Handle(ApproveLeaveRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(ApproveLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var employee = await _repository.GetEmployeeByIdAsync(request.EmployeeId);
+        var employee = await _employeeRepository.GetEmployeeByIdAsync(request.EmployeeId);
+
         if (employee == null)
-            throw new Exception($"Not Found");
+            return Result.Failure(DomainErrors.Employee.NotFound(request.EmployeeId.ToString()));
 
         employee.ApproveLeaveRequest(request.LeaveRequestId);
 
-        await _repository.UpdateAsync(employee);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
+        return Result.Success();
     }
 }

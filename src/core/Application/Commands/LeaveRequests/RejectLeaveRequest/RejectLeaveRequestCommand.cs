@@ -1,8 +1,8 @@
-﻿using MediatR;
+﻿using Application.Interfaces.Messaging;
 
 namespace Application.Commands.LeaveRequests.RejectLeaveRequest;
 
-public class RejectLeaveRequestCommand : IRequest<Unit>
+public class RejectLeaveRequestCommand : ICommand
 {
     public Guid EmployeeId { get; }
     public Guid LeaveRequestId { get; }

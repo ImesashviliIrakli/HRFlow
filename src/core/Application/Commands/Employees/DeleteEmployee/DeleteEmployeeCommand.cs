@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Application.Interfaces.Messaging;
+using MediatR;
 
 namespace Application.Commands.Employees.DeleteEmployee;
 
-public class DeleteEmployeeCommand : IRequest<Unit>
+public class DeleteEmployeeCommand : ICommand<Unit>
 {
     public Guid EmployeeId { get; }
 

@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Shared;
+using Domain.Primitives;
 
 namespace Domain.Events.EmployeeEvents;
 

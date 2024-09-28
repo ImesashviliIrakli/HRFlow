@@ -1,11 +1,11 @@
-﻿using Application.Models.Employee;
+﻿using Application.Interfaces.Messaging;
+using Application.Models.Employee;
 using Application.Models.Identity;
-using MediatR;
 using System.Text.Json.Serialization;
 
 namespace Application.Commands.Employees.CreateEmployee;
 
-public class CreateEmployeeCommand : IRequest<Guid>
+public class CreateEmployeeCommand : ICommand<Guid>
 {
     [JsonPropertyName("registration")]
     public required RegistrationRequest RegistrationRequest { get; set; }

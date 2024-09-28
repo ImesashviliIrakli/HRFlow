@@ -1,27 +1,31 @@
-﻿using Application.Interfaces;
-using MediatR;
+﻿using Application.Interfaces.Messaging;
+using Domain.Errors;
+using Domain.Repositories;
+using Domain.Shared;
 
 namespace Application.Commands.LeaveRequests.RejectLeaveRequest;
 
-public class RejectLeaveRequestCommandHandler : IRequestHandler<RejectLeaveRequestCommand, Unit>
+public class RejectLeaveRequestCommandHandler : ICommandHandler<RejectLeaveRequestCommand>
 {
-    private readonly IEmployeeRepository _repository;
+    private readonly IEmployeeRepository _employeeRepository;
+    private readonly IUnitOfWork _unitOfWork;
 
-    public RejectLeaveRequestCommandHandler(IEmployeeRepository repository)
+    public RejectLeaveRequestCommandHandler(IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _employeeRepository = employeeRepository;
+        _unitOfWork = unitOfWork;
     }
-    public async Task<Unit> Handle(RejectLeaveRequestCommand request, CancellationToken cancellationToken)
+    public async Task<Result> Handle(RejectLeaveRequestCommand request, CancellationToken cancellationToken)
     {
-        var employee = await _repository.GetEmployeeByIdAsync(request.EmployeeId);
+        var employee = await _employeeRepository.GetEmployeeByIdAsync(request.EmployeeId);
 
         if (employee == null)
-            throw new Exception("Not Found");
+            return Result.Failure(DomainErrors.Employee.NotFound(request.EmployeeId.ToString()));
 
         employee.RejectLeaveRequest(request.LeaveRequestId, request.RejectionReason);
 
-        await _repository.UpdateAsync(employee);
+        await _unitOfWork.SaveChangesAsync(cancellationToken);
 
-        return Unit.Value;
+        return Result.Success();
     }
 }

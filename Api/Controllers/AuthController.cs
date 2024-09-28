@@ -21,7 +21,9 @@ public class AuthController : BaseController
     {
         var data = await _mediator.Send(loginCommand);
 
-        return CreateResponse(data);
+        return data.IsSuccess
+               ? Ok(data.Value)
+               : NotFound(data.Error);
     }
 
     [HttpPost("RegisterEmployee")]
@@ -29,6 +31,8 @@ public class AuthController : BaseController
     {
         var data = await _mediator.Send(createEmployeeCommand);
 
-        return CreateResponse(data);
+        return data.IsSuccess
+               ? Ok(data.Value)
+               : NotFound(data.Error);
     }
 }

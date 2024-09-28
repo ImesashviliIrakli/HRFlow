@@ -1,8 +1,9 @@
-﻿using MediatR;
+﻿using Application.Interfaces.Messaging;
+using MediatR;
 
 namespace Application.Commands.Employees.UpdateEmployeeDetails;
 
-public class UpdateEmployeeDetailsCommand : IRequest<Unit>
+public class UpdateEmployeeDetailsCommand : ICommand<Unit>
 {
     public Guid EmployeeId { get; set; }
     public required string FirstName { get; set; }
