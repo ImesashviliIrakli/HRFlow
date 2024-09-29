@@ -4,6 +4,7 @@ namespace Domain.Repositories;
 
 public interface IEmployeeRepository
 {
+    Task<List<Employee>> GetEmployees();
     Task<Employee> GetEmployeeByIdAsync(Guid id);
     Task<Employee> GetEmployeeByUserIdAsync(string userId);
     Task AddAsync(Employee employee);

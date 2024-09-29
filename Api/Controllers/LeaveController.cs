@@ -1,10 +1,10 @@
-﻿using Application.Commands.LeaveRequests.SubmitLeaveRequest;
+﻿using Application.Commands.LeaveRequests.ApproveLeaveRequest;
+using Application.Commands.LeaveRequests.RejectLeaveRequest;
+using Application.Commands.LeaveRequests.SubmitLeaveRequest;
 using Application.Models.LeaveRequest;
-using Azure;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
 namespace Api.Controllers;
 
@@ -19,15 +19,31 @@ public class LeaveController : BaseController
         _mediator = mediator;
     }
 
-    [HttpPost]
+    [HttpPost("SubmitLeaveRequest")]
     public async Task<IActionResult> SubmitLeaveRequest([FromBody] SubmitLeaveRequest submitLeaveRequest)
     {
         var command = new SubmitLeaveRequestCommand(GetCurrentUserId(), submitLeaveRequest.StartDate, submitLeaveRequest.EndDate, submitLeaveRequest.Reason);
 
         var data = await _mediator.Send(command);
 
-        return data.IsSuccess
-               ? Ok(data)
-               : NotFound(data.Error);
+        return data.IsSuccess ? Ok(data) : NotFound(data.Error);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("RejectLeaveRequest")]
+    public async Task<IActionResult> RejectLeaveRequest([FromBody] RejectLeaveRequestCommand command)
+    {
+        var data = await _mediator.Send(command);
+
+        return data.IsSuccess ? Ok(data) : NotFound(data.Error);
+    }
+
+    [Authorize(Roles = "Admin")]
+    [HttpPut("ApproveLeaveRequest")]
+    public async Task<IActionResult> ApproveLeaveRequest([FromBody] ApproveLeaveRequestCommand command)
+    {
+        var data = await _mediator.Send(command);
+
+        return data.IsSuccess ? Ok(data) : NotFound(data.Error);
     }
 }

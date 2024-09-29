@@ -16,6 +16,13 @@ public class EmployeeRepository : IEmployeeRepository
     #endregion
 
     #region Read
+    public async Task<List<Employee>> GetEmployees()
+    {
+        var employees = await _context.Employees.ToListAsync();
+
+        return employees;
+    }
+
     public async Task<Employee> GetEmployeeByIdAsync(Guid id)
     {
         var employee = await _context.Employees
