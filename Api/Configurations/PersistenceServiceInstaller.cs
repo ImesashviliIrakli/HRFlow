@@ -1,15 +1,15 @@
-﻿using Domain.Repositories;
+﻿
+using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Persistence.Data;
 using Persistence.Repositories;
 
-namespace Persistence;
+namespace Api.Configurations;
 
-public static class PersistenceServiceRegistration
+public class PersistenceServiceInstaller : IServiceInstaller
 {
-    public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuartion)
+    public void Install(IServiceCollection services, IConfiguration configuration)
     {
         services.AddDbContext<AppDbContext>
         (
@@ -18,7 +18,7 @@ public static class PersistenceServiceRegistration
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
                 options.UseSqlServer
                 (
-                    configuartion.GetConnectionString("DefaultConnection")
+                    configuration.GetConnectionString("DefaultConnection")
                 );
             }
         );
@@ -27,7 +27,5 @@ public static class PersistenceServiceRegistration
         services.AddScoped<IEmployeeRepository, EmployeeRepository>();
         services.AddScoped<ILeaveRepository, LeaveRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        return services;
     }
 }

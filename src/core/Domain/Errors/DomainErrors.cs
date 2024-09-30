@@ -22,4 +22,19 @@ public static class DomainErrors
                 "Employee.NoEmployees",
                 $"Don't have any employees");
     }
+
+    public static class LeaveRequest
+    {
+        public static readonly Func<Guid, Error> NotFound = leaveId => new(
+                "LeaveRequest.NotFound",
+                $"The specified leave {leaveId} could not be found.");
+
+        public static readonly Func<Guid, Error> NotFoundByEmpId = employeeId => new(
+                "LeaveRequest.NotFound",
+                $"The specified leave for employee {employeeId} could not be found.");
+
+        public static readonly Error NoEmployees = new(
+                "LeaveRequest.NoEmployees",
+                $"Don't have any employees");
+    }
 }

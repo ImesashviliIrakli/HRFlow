@@ -2,9 +2,13 @@
 using Application.Commands.LeaveRequests.RejectLeaveRequest;
 using Application.Commands.LeaveRequests.SubmitLeaveRequest;
 using Application.Models.LeaveRequest;
+using Application.Queries.LeaveRequests.GetEmployeLeaveRequests;
+using Application.Queries.LeaveRequests.GetLeaveRequestById;
+using Application.Queries.LeaveRequests.GetLeaveRequests;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Api.Controllers;
 
@@ -19,6 +23,39 @@ public class LeaveController : BaseController
         _mediator = mediator;
     }
 
+    #region Query
+    [HttpGet("GetLeaveRequests")]
+    public async Task<IActionResult> GetLeaveRequests()
+    {
+        var query = new GetLeaveRequestsQuery();
+
+        var data = await _mediator.Send(query);
+
+        return data.IsSuccess ? Ok(data.Value) : NotFound(data.Error);
+    }
+
+    [HttpGet("GetLeaveRequestById/{leaveRequestId}")]
+    public async Task<IActionResult> GetLeaveRequestById(Guid leaveRequestId)
+    {
+        var query = new GetLeaveRequestByIdQuery(leaveRequestId);
+
+        var data = await _mediator.Send(query);
+
+        return data.IsSuccess ? Ok(data.Value) : NotFound(data.Error);
+    }
+
+    [HttpGet("GetEmployeeLeaveRequests/{employeeId}")]
+    public async Task<IActionResult> GetEmployeeLeaveRequests(Guid employeeId)
+    {
+        var query = new GetEmployeLeaveRequestsQuery(employeeId);
+
+        var data = await _mediator.Send(query);
+
+        return data.IsSuccess ? Ok(data.Value) : NotFound(data.Error);
+    }
+    #endregion
+
+    #region Command
     [HttpPost("SubmitLeaveRequest")]
     public async Task<IActionResult> SubmitLeaveRequest([FromBody] SubmitLeaveRequest submitLeaveRequest)
     {
@@ -46,4 +83,5 @@ public class LeaveController : BaseController
 
         return data.IsSuccess ? Ok(data) : NotFound(data.Error);
     }
+    #endregion
 }

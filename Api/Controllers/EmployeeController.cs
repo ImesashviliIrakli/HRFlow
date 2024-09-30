@@ -18,6 +18,7 @@ public class EmployeeController : BaseController
         _mediator = mediator;
     }
 
+    #region Query
     [HttpGet("GetEmployees")]
     public async Task<IActionResult> GetEmployees()
     {
@@ -37,7 +38,9 @@ public class EmployeeController : BaseController
 
         return data.IsSuccess ? Ok(data.Value) : BadRequest(data.Error);
     }
+    #endregion
 
+    #region Command
     [HttpPut("UpdateEmployeeDetails")]
     public async Task<IActionResult> UpdateEmployeeDetails([FromBody] UpdateEmployeeDetailsCommand updateEmployeeDetailsCommand)
     {
@@ -56,4 +59,5 @@ public class EmployeeController : BaseController
 
         return data.IsSuccess ? Ok(data) : BadRequest(data.Error);
     }
+    #endregion
 }

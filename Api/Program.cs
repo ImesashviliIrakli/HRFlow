@@ -1,16 +1,15 @@
+using Api.Configurations;
+using Api.Middleware;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
-using Identity;
-using Persistence;
-using Application;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
-builder.Services.AddIdentityServices(builder.Configuration);
-builder.Services.AddPersistenceServices(builder.Configuration);
-builder.Services.AddApplicationServices();
+builder.Services
+    .InstallServices(
+        builder.Configuration,
+        typeof(IServiceInstaller).Assembly);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -54,6 +53,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<GlobalExceptionHandling>();
 
 app.MapControllers();
 

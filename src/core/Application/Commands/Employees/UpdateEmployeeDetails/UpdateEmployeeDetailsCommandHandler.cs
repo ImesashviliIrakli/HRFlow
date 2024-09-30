@@ -27,8 +27,6 @@ public class UpdateEmployeeDetailsCommandHandler : ICommandHandler<UpdateEmploye
 
         employee.UpdateEmployeeDetails(request.FirstName, request.LastName, request.Position, newAddress);
 
-        _employeeRepository.Update(employee);
-
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 
         return Unit.Value;

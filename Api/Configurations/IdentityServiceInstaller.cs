@@ -1,18 +1,19 @@
-﻿using Application.Interfaces;
+﻿
+using Application.Interfaces;
 using Identity.Data;
 using Identity.Models;
+using Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace Identity;
-public static class IdentityServiceRegistration
+namespace Api.Configurations;
+
+public class IdentityServiceInstaller : IServiceInstaller
 {
-    public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration configuration)
+    public void Install(IServiceCollection services, IConfiguration configuration)
     {
         services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
@@ -43,7 +44,5 @@ public static class IdentityServiceRegistration
 
             };
         });
-
-        return services;
     }
 }

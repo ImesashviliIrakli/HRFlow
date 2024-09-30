@@ -30,9 +30,6 @@ public class EmployeeRepository : IEmployeeRepository
             .Include(x => x.Address)
             .FirstOrDefaultAsync(x => x.Id.Equals(id));
 
-        if (employee is null)
-            throw new Exception("Not Found");
-
         return employee;
     }
 
@@ -42,9 +39,6 @@ public class EmployeeRepository : IEmployeeRepository
             .Include(x => x.Address)
             .Include(x => x.LeaveRequests)
             .FirstOrDefaultAsync(x => x.UserId.Equals(userId));
-
-        if (employee is null)
-            throw new Exception("Not Found");
 
         return employee;
     }
