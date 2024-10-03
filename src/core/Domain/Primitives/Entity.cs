@@ -1,4 +1,6 @@
-﻿namespace Domain.Primitives;
+﻿using Domain.Events;
+
+namespace Domain.Primitives;
 
 public abstract class Entity
 {

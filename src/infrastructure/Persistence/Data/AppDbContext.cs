@@ -1,5 +1,5 @@
 ﻿using Domain.Entities;
-using Domain.Primitives;
+using Domain.Events;
 using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Data;
@@ -8,6 +8,7 @@ public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
+    public DbSet<DomainEvent> Events { get; set; }
     public DbSet<Employee> Employees { get; set; }
     public DbSet<LeaveRequest> LeaveRequests { get; set; }
 
