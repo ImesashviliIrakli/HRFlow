@@ -1,17 +1,19 @@
 ﻿using Application.Interfaces.Messaging;
+using Application.Interfaces.MongoDb;
 using Domain.Events;
 
 namespace Application.Events.Employee;
 
 public sealed class EmployeeCreatedEventHandler : IDomainEventHandler<EmployeeCreatedEvent>
 {
-    public EmployeeCreatedEventHandler()
+    private readonly IEmployeeNoSqlRepository _employeeMongo;
+    public EmployeeCreatedEventHandler(IEmployeeNoSqlRepository employeeMongo)
     {
-        
+        _employeeMongo = employeeMongo;
     }
 
-    public Task Handle(EmployeeCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(EmployeeCreatedEvent notification, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        await _employeeMongo.AddEmployee(notification.employee);
     }
 }

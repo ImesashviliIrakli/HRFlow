@@ -14,16 +14,19 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IAuthService _authService;
     private readonly IUnitOfWork _unitOfWork;
+    private readonly IMediator _mediator;
 
     public CreateEmployeeCommandHandler(
         IEmployeeRepository employeeRepository,
         IAuthService authService,
-        IUnitOfWork unitOfWork
+        IUnitOfWork unitOfWork,
+        IMediator mediator
         )
     {
         _employeeRepository = employeeRepository;
         _authService = authService;
         _unitOfWork = unitOfWork;
+        _mediator = mediator;
     }
 
     public async Task<Result<Guid>> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -40,6 +43,13 @@ public class CreateEmployeeCommandHandler : ICommandHandler<CreateEmployeeComman
         await _employeeRepository.AddAsync(employee);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var domainEvents = employee.DomainEvents;
+
+        foreach (var item in domainEvents)
+        {
+            await _mediator.Publish(item, cancellationToken);
+        }
 
         return employee.Id;
     }

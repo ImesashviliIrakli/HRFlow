@@ -39,6 +39,8 @@ builder.Services.AddSwaggerGen(x =>
     });
 });
 
+builder.Services.AddTransient<GlobalExceptionHandling>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
