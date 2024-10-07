@@ -11,10 +11,12 @@ public class UpdateEmployeeDetailsCommandHandler : ICommandHandler<UpdateEmploye
 {
     private readonly IEmployeeRepository _employeeRepository;
     private readonly IUnitOfWork _unitOfWork;
-    public UpdateEmployeeDetailsCommandHandler(IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork)
+    private readonly IMediator _mediator;
+    public UpdateEmployeeDetailsCommandHandler(IEmployeeRepository employeeRepository, IUnitOfWork unitOfWork, IMediator mediator)
     {
         _employeeRepository = employeeRepository;
         _unitOfWork = unitOfWork;
+        _mediator = mediator;
     }
     public async Task<Result<Unit>> Handle(UpdateEmployeeDetailsCommand request, CancellationToken cancellationToken)
     {
@@ -28,6 +30,13 @@ public class UpdateEmployeeDetailsCommandHandler : ICommandHandler<UpdateEmploye
         employee.UpdateEmployeeDetails(request.FirstName, request.LastName, request.Position, newAddress);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
+
+        var domainEvents = employee.DomainEvents;
+
+        foreach (var domainEvent in domainEvents) 
+        {
+            await _mediator.Publish(domainEvent);
+        }
 
         return Unit.Value;
     }

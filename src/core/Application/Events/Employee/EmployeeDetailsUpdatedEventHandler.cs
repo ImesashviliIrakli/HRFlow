@@ -6,19 +6,19 @@ using Domain.Events;
 
 namespace Application.Events.Employee;
 
-public sealed class EmployeeCreatedEventHandler : IDomainEventHandler<EmployeeCreatedEvent>
+public class EmployeeDetailsUpdatedEventHandler : IDomainEventHandler<EmployeeDetailsUpdatedEvent>
 {
     private readonly IEmployeeNoSqlRepository _employeeMongo;
     private readonly IMapper _mapper;
-    public EmployeeCreatedEventHandler(IEmployeeNoSqlRepository employeeMongo, IMapper mapper)
+    public EmployeeDetailsUpdatedEventHandler(IEmployeeNoSqlRepository employeeMongo, IMapper mapper)
     {
         _employeeMongo = employeeMongo;
         _mapper = mapper;
     }
-
-    public async Task Handle(EmployeeCreatedEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(EmployeeDetailsUpdatedEvent notification, CancellationToken cancellationToken)
     {
         var employeeDocument = _mapper.Map<EmployeeDocument>(notification.employee);
-        await _employeeMongo.AddEmployeeAsync(employeeDocument);
+
+        await _employeeMongo.UpdateEmployeeDetailsAsync(employeeDocument);
     }
 }

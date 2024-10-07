@@ -1,4 +1,4 @@
-﻿using Domain.Entities;
+﻿using Application.Models.NoSqlDocuments;
 using Microsoft.EntityFrameworkCore;
 using MongoDB.Driver;
 
@@ -13,5 +13,5 @@ public class MongoDbContext : DbContext
         _database = database;
     }
 
-    public IMongoCollection<Employee> Employees => _database.GetCollection<Employee>("employees");
+    public IMongoCollection<EmployeeDocument> Employees => _database.GetCollection<EmployeeDocument>("employees");
 }
