@@ -6,6 +6,8 @@ using Domain.Repositories;
 using Domain.Shared;
 using Domain.ValueObjects;
 using MediatR;
+using Microsoft.Extensions.Logging;
+using System.Runtime.InteropServices;
 
 namespace Application.Commands.Employees.CreateEmployee;
 
