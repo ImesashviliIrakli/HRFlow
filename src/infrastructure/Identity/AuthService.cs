@@ -1,9 +1,7 @@
 ﻿using Application.Interfaces;
 using Application.Models.Identity;
-using Azure.Core;
 using Identity.Data;
 using Identity.Models;
-using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;

@@ -12,11 +12,11 @@ builder.Services
         builder.Configuration,
         typeof(IServiceInstaller).Assembly);
 
-builder.Host.UseSerilog((context, configuration) =>
- configuration
-      //.WriteTo.Console()
-      //.MinimumLevel.Information());
-      .ReadFrom.Configuration(context.Configuration));
+//builder.Host.UseSerilog((context, configuration) =>
+// configuration
+//      //.WriteTo.Console()
+//      //.MinimumLevel.Information());
+//      .ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();

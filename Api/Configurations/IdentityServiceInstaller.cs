@@ -1,8 +1,8 @@
 ﻿
 using Application.Interfaces;
+using Identity;
 using Identity.Data;
 using Identity.Models;
-using Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +18,9 @@ public class IdentityServiceInstaller : IServiceInstaller
         services.Configure<JwtOptions>(configuration.GetSection("JwtOptions"));
 
         services.AddDbContext<AuthDbContext>(options =>
-           options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
+           options.UseNpgsql(
+               configuration["PostgreConnection"]
+               ));
 
         services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AuthDbContext>().AddDefaultTokenProviders();

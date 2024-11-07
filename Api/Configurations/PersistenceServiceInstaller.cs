@@ -1,7 +1,6 @@
 ﻿
 using Domain.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Persistence.Data;
 using Persistence.Repositories;
 
@@ -16,9 +15,10 @@ public class PersistenceServiceInstaller : IServiceInstaller
             options =>
             {
                 options.UseQueryTrackingBehavior(QueryTrackingBehavior.TrackAll);
-                options.UseSqlServer
+                options.UseNpgsql
                 (
-                    configuration.GetConnectionString("DefaultConnection")
+                    //configuration["PostgreConnection"]
+                    configuration.GetConnectionString("POSTGRES_CONNECTION_STRING")
                 );
             }
         );
